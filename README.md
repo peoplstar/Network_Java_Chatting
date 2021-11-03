@@ -16,206 +16,74 @@
 
 
 
->반복문  
-```ARM Assembly
-section .data
-        msg db "A"
+> Chapter 2
+1. 예제 2.1 과 2.3을 통합하세요.
+2. 예제 2.2와 2.4를 통합하세요.
+3. 예제 2.5 수정. 고객 전화번호 입력란을 추가하세요. ‘종료’ 버튼을 ‘출력’ 버튼으로 수정하여 ‘출력’ 버튼을
+누르면 구좌번호에 해당하는 이름과 잔고, 전화번호를 텍스트 필드에 출력함.
+윈도우 종료는 x버튼을 눌러 시행함
+4. FilterOutputStream 클래스를 상속하여 2개의 기본 스트림에 동시에 write 하는 클래스를 작성하시오.
+즉, 한 번 write() 하면 2개의 기반 스트림 객체에 write가 되도록 write(int a), write(byte[]), flush(), close() 메소드를
+재정의하시오. 그 다음, 이 클래스를 이용하여 한 개의 파일을 2개의 새로운 파일에 복사하는 클래스를
+작성하시오. 단, 파일 이름들은 명령행 인자로 받아들이고, 복사에 사용하는 메소드는 예제 2.7의 ‘copy()’ 를
+활용하시오.
 
-section .text
-        global _start
+> Chapter 3
 
-_start:
-        mov rax, 1
-        mov rdi, 1
-        mov rsi, msg
-        mov rdx, 1
-        mov r10, 1
+1. 예제 3.1을다음과 같이 수정하시오.
+- 파일에 관한 정보 출력은 BorderLayout.CENTER에 출력
+- 디렉토리 및 파일 내용은 BorderLayout.SOUTH에 출력
+- 파일 정보 출력 시 CanonicalPath 추가
+- 최종 수정 시각은 yyyy년 MM월 dd일 (w요일) hh시 mm분의 형식으로 출력함
+2. jpg 파일을 입력 받아 copy.jpg로 복사하는 클래스를 작성하시오. 한 번에 1KB 단위로 데이터를
+복사하고 복사를 진행하는 동안 10% 진행할 때마다 ‘*’를 하나씩 출력하며 RandomAccessFile
+클래스를 이용하시오.
+3. 예제 3.2를 수정하여 의해 ‘입력’ 버튼을 누르면 정보를 저장하고, 출력 버튼을 누르면 계좌번호 또는 이름에
+해당하는 Record를 읽어 출력하는 클래스를 작성하세요. 윈도우의 x버튼을 클릭하면 윈도우는 닫히고
+프로그램이 종료된다.
 
-again:
-        cmp r10, 100
-        je done
-        syscall
-        mov rax, 1
-        inc r10
-        jmp again
+> Chapter 4
+1. 문자열을 키보드로 입력 받아 파일에 저장한 후 저장된 파일을 읽어 화면에 출력(PrintWriter이용)하는 클래스를
+작성하세요.
+2. 파일명을 입력 받아 그 파일의 내용을 읽어들여 줄 번호를 붙여 새로운 파일(파일명은 numbered_입력파일명)에
+저장한 후 저장된 파일의 내용을 읽어 화면에 출력하는 GUI 프로그램을 작성하시오(LineNumberReader 이용).
+3. 사용자로부터 2개의 파일 이름을 입력 받고 첫 번째 파일 뒤에 두 번째 파일을 덧붙여 새로운 파일을 생성하는
+프로그램을 작성하시오(BufferedReader/BufferedWriter 이용)
+4. 사용자로부터 2개의 파일 이름을 입력 받고 두 파일의 내용을 비교하여 같으면 각 파일의 최종 수정 시간을
+출력하고, 다르면 각 파일의 길이를 출력하는 프로그램을 작성하시오.
 
-done:
-        mov rax, 60
-        mov rdi, 0
-        syscall
-```
-반복문에서는 잘 쓰이지 않는 r10의 레지스터 값을 이용하는데 cmp 함수를 통해 r10이 100이 되면 `je done` 위 두 변수의 값이 동일할 경우 `done`이란 함수로 가도록 하고 그렇지 않다면 `rax = 1` 이므로 `syscall` 할 때 A가 출력되게 한다. **`rax`는 함수 실행 후 그 함수의 결과가 rax에 담기기 때문에** 다시 `rax, 1`로 출력할 수 있게 한다.
-`inc r10`는 `++r10`과 같은 의미를 가지고 있다.  
+> Chapter 5_6
+1. 예제 5.6에 추가하여 로컬 호스트의 루프백 주소를 출력할 수 있도록 하시오.
+원격 호스트가 여러 개의 주소를 갖는 경우 모든 주소를 함께 출력하시오.
+입력된 원격 호스트의 IP 주소와 메소드 ‘static InetAddress getByAddress(byte[] addr)’를 이용하여 새로운 InetAddress
+객체를 생성한 후 두 객체가 같은 지 비교하여 그 결과를 출력하시오.
+2. 예제 5.7을 다음과 같이 수정하세요.
+- 입력된 호스트에 할당된 모든 주소를 2번째 Panel의 TextArea 에 출력
+- 3번째 Panel을 추가한 후 호스트의 대표 IP 주소의 클래스 유형을 TextField에 출력
+3. 예제 6.8을 다음과 같이 수정하세요.
+- TextArea를 하나 추가
+- 첫 번째 TextArea에는 protocol, host name, port no., file name, hash code 등 원격호스트의 정보를 출력한다.
+- 두 번째 TextArea에는 URL이 가리키는 객체에 따라 텍스트이면 내용을 읽어와 모두 출력하고, 이미지, 오디오,
+비디오 객체인 경우에는 그 유형만 나타내시오.
 
-> Echo Program   
+> Chapter 7_8
 
-에코 프로그램이란, 자신이 입력할 문자열을 그대로 출력해주는 프로그램이다. 아래의 소스 중
-`xor rax, rax` = `mov rax, 0` 와 같은 의미를 나타내고 `sub rsp, 64`를 통해 RSP를 64만큼 뺀다는 것은 스택에서 RSP 위로 64만큼의 공간을 확보한다는 의미하게 된다. 위 언급한 마이크로소프트 사이트에서 레지스터 아키텍쳐표를 보면 알겠지만, `rax = 0` 일 때 rdi는 디스크를 읽게 되고 `rax = 1` 일때 rdi는 디스크를 쓰게 된다.
-
-```ARM Assembly
-section .text
-        global _start
-
-_start:
-        xor rax, rax
-        mov rbx, rax
-        mov rcx, rax
-        mov rdx, rax
-
-        sub rsp, 64
-        mov rdi, 0
-        mov rsi, rsp
-        mov rdx, 63
-
-        syscall ; 디스크를 읽어오는 과정
-
-        mov rax, 1
-        mov rdi, 1
-        mov rsi, rsp
-        mov rdx, 63
-
-        syscall ; 디스크를 쓰는 과정
-
-        mov rax, 60
-
-        syscall ; 프로그램 종료
-```   
-`nasm -f elf64 -o echo.o echo.s` 를 통해 목적 코드로 변경하고 `ld -o echo echo.o`로 목적 코드를 실행프로그램으로 만들어 준다.
-
->Star pyramid
-```ARM Assembly
-section .data
-        STAR db '*'
-        EMPTY db 0x0a ;줄바꿈
-section .text
-        global _start
-
-_start:
-        mov rax, 1 ; WRITE 시스템콜
-        mov rdi, 1 ; 기본 출력 모드
-        mov rdx, 1 ; 출력 길이 설정 (한글자 출력)
-        mov r10, 0 ; 반복문의 인덱스 역할
-        mov r9, [rsp + 16] ; 현재 입력이 된 문자열을 찾는다. 
-
-        cmp r9, 0 ; 입력이 없는 경우 r9에는 0이 담긴다.
-        je _done ; 실행종료 프로그램 호출
-
-        mov cl, [r9] ; r9의 가장 앞 한 바이트만 cl에 저장
-        movzx r9, cl ; 문자형태의 cl를 r9에 저장
-        sub r9, 0x30 ; 인덱스
-
-        mov r8, r9
-        xor r9, r9 ; 초기화
-        call _syscall ; 새로운 syscall의 함수
-
-_small:
-        cmp r10, r9
-        je _up
-        mov rsi, STAR ; 별 출력
-        syscall
-        mov rax, 1 ; WRITE 시스템콜 설정
-        inc r10 
-        jmp _small ; 다시 출력
-_up:
-        cmp r9, r8 ; i == n인 경우
-        je _down
-        mov rsi, EMPTY ; 줄바꿈 출력
-        syscall 
-        mov rax, 1 ; WRTIE 시스템 콜 설정
-        mov r10, 0
-        add r9, 1
-        jmp _small
-
-_down:
-        cmp r9, 0
-        je _done;
-        mov rsi, EMPTY 
-        syscall
-        mov rax, 1
-        mov r10, 0
-        sub r9, 1
-        jmp _big
-
-_big:
-        cmp r10, r9
-        je _down
-        mov rsi, STAR
-        syscall
-        mov rax, 1
-        inc r10
-        jmp _big
-
-_done:
-        mov rax, 60
-        mov rdi, 0
-        syscall
-
-_syscall:
-        syscall
-        ret
-               
-```
-
-> Register & System call   
-
-64비트 환경에서 컴퓨터는 시스템 구조, 레지스터를 어떻게 불러오는지에 대해 MICROSOFT사에서 자세히 설명해두었다. 어셈블리어에서 이용하는 레지스터의 이름과 메모리는 어떻게 되는지 자세히 알고싶으면 확인해보길 바랍니다. 
-[MICROSOFT](https://docs.microsoft.com/en-us/windows-hardware/drivers/debugger/x64-architecture)
-
-* rax : 가장 중요한 레지스터 중 하나, 시스템 콜의 실질적인 번호, 함수의 결과가 담기는 곳
-* rbx : 베이스 레지스터, 메모리 주소를 지정해주는 곳
-* rcx : 카운터 레지스터, 반복문에 주로 사용
-* rdx : 데이터 레지스터, 연산수행    
-  __<위 4개의 레지스터를 통틀어 데이터 레지스터라 칭함.>__
-* rsi : 메모리를 이동하거나 비교할 때 출발지 주소
-* rdi : 메모리를 이동하거나 비교할 때 목적지 주소
-* rbp : 함수의 파라미터나 변수의 주소
-* rsp : 스택에 대한 삽입 및 삭제 명령에 의해서 변경되는 top의 주소   
-
-Syscall 같은 경우는 Google에 __64bit system call table__ 을 검색하면 자세히 설명되어있다.
+1. DayTime 클라이언트와 서버를 아래의 내용을 참조하여 수정하세요.
+ - 서버는 클라이언트에 시간 정보를 송싱한 후 송신채널만 종료
+ - 클라이언트는 시간 정보를 수신한 후 "Thank you"를 송신하고 소켓을 닫음
+ - 서버는 클라이언트로부터의 "Thank you" 메세지를 수신하여 출력한 후 소켓을 닫음
+2. 예제 7.4를 수정하여 스레드를 이용한 다중처리와 주소 재사용이 가능한 echo 서버로 만드세요
+3. 다음 메소드들의 실행 결과를 출력하여 확인하세요.
+toString(), getSendBufferSize()/setSendBufferSize(), getReceiveBuffersize()/setReceiveBufferSize(),
+getKeepAlive()/setKeepAlive(), getTcpNoDelay()/setTcpNoDelay(), getReuseAddress()
+4. 파일 다운로드 서버를 아래의 내용을 참조하여 수정하세요.
+- 클라이언트(웹브라우저)가 주소창에 파일을 요청하면 서버는 파일을 클라이언트로 전송
  
-> Memory 
- 
-[memory_image] 추가할 예정   
-사진은 운영체제 32bit 기준의 메모리이다. 64bit의 메모리 크기는 2^64-1이다
 
-Stack 영역 : 선입선출의 개념(FIFO), 함수 및 함수 지역변수 등 호출할 때마다 정보가 쌓인다.   
-Heap 영역 : 동적으로 할당되는 변수, C언어의 malloc()함수과 같은 것으로 할당 할 때 저장되는 공간   
-BSS 영역 : 프로그램에서 사용될 변수들이 실제로 위치하는 영역, 초기화하지 않은 변수   
-Data 영역 : 초기화가 이루어진 변수이고, 위 어셈블리어 코드중 `section .data`가 이 영역이다.  
-Text 영역 : 우리가 작성한 소스 코드, 시스템이 알아들을 수 있는 실질적인 명령어이고, 컴파일러가 만들어 놓은 기계어 코드이고, 위 어셈블리어 코드중 `global_start`로부터 `_start:`의 코드가 하나씩 들어가게 된다.
-### _table로 변환 할것_ ###
+> Chapter 11
 
-[compiling_image]  
-* 리눅스는 기본적으로 프로그램을 실행할 때 스택영역에 다양한 취약점이 있다는 것을 알고 있기 때문에 기본적인 방어체계마련하는데 이러한 것을 다 끈상태로 컴파일을 하도록 만들어주는 명령어이다.
-`stack-boundary=4`를 통해 64bit 운영체제버전으로 컴파일할 수 있게한다. sum.c의 파일을 sum.a의 어셈블리어 코드로 바꿔줄 수 있게 한다.
-
-[stack_frame]   
-* C언어는 main함수부터 실행하기 되는데 main함수를 불러오게 되면 가장 아래에 RET(return address)가 생성되는데, 특정한 함수가 끝나면 돌아갈 위치를 저장한다. return address를 해커가 임의로 변경하여 공격하는 것이 버퍼오버플로우 등이 있다. RBP란, 스택이 시작하는 베이스 포인터를 뜻하는데, RBP 바로 위부터 데이터에 대한 것이 스택에 쌓이는 것을 알려준다.    
-
-> Debugging
-
-`apt-get install strace`로 툴을 다운받아준다. 디버깅을 하기 위해서 strace 로 시스템콜과 관련한 내용을 살펴보도록 도와주는 도구, 어떠한 프로그램이 있을 때 그것과 유사한 프로그램 만들 때도 사용하는 유용한 도구이다. `strace -ifx ./echo`를 통해 디버깅 과정을 알 수 있다.
-[strace_image]
-
-더욱 구체적이고 좋은 디버깅 툴을 이용할 것인데 이 도구는 깃허브에서 제공한다. `git clone https://github.com/pwndbg/pwndbg` 을 입력하여 pwndbg를 다운받는다. 디버깅할 폴더로 이동하여 `gdb 해당파일이름`을 통해 디버깅을 하게 된다. Breaking point를 `break * _start`와 같이 지정해 `run`으로 실행하고, `ni`라는 명령어로 한줄씩 next instruction 한다.
-
->Shell code
-
-명령 Shell을 실행 시켜 해킹을 당하는 서버 컴퓨터를 제어하도록 하는 코드이다.
-특정한 소프트웨어의 버퍼오버플로우 같은 취약점 등을 이용한 쉘 코드를 이용할 수 있다. 루트 권한으로 실행된다면 장악할 수 있다. 예) 명령 프롬프트   
-
-```C
-#include <stdio.h>
-#include <string.h>
-
-char shell[] =  "\x31\xc0\x48\xbb\xd1\x9d\x96\x91\xd0\x8c\x97\xff\x48\xf7\xdb\x53\x54\x5f\x99\x52\x57\x54\x5e\xb0\x3b\x0f\x05";
-
-void main() {
-        printf("length : %d bytes\n", strlen(shell));
-        (*(void( *)()) shell)();
-        return 0;
-}
-```
-해당 Shell code는 Google에 검색하면 찾을 수 있다.   
-기본적으로 최신의 OS는 프로그램 컴파일시 스택 프로텍터 같은 것으로 프로그램이 실행될 때 마다 디렉터리나 파일등의 메모리 주소등이 계속 변화한다. 실습과정에서는 이러한 보호기법을 모두 끄고 하게 될 것이다.
-`gcc --fno-stack-protector -mpreferred-stack-boundary=4 -z execstack shell.c -o shell` 이렇게 만들어진 쉘 프로그램은 `chmod 4775 shell`로 해당 프로그램을 실행하면 루트권한을 얻을 수 있게 한다. 일반적인 유저권한으로 해당 프로그램을 실행하면 루트권한을 따게 되어 모든 작업을 할 수 있게 된다.
+1. UDP 소켓을 이용하여 daytime 서버와 클라이언트를 구현하세요.
+2. 예제 11.7 및 11.8을 참조하여 일대일 채팅 프로그램을 작성하세요 (UDP 이용).
+3. 온라인 사전 서버와 클라이언트 만들기
+- 클라이언트가 영어 단어를 서버로 보내면 서버는 해당 단어에 대한 뜻을 클라이언트로 전송
+- 사전은 파일로 관리
