@@ -79,7 +79,21 @@ getKeepAlive()/setKeepAlive(), getTcpNoDelay()/setTcpNoDelay(), getReuseAddress(
 4. 파일 다운로드 서버를 아래의 내용을 참조하여 수정하세요.
 - 클라이언트(웹브라우저)가 주소창에 파일을 요청하면 서버는 파일을 클라이언트로 전송
  
+> Chapter 9
+- OneToOneC2 / OneToOneS2   
+1. 클라이언트와 서버에 각각 연결 정보 출력
+2. 클라이언트 연결 종료 시 입력 내용 출력 안되게 하기
+3. 클라이언트 재접속 기능 추가 
+4. 클라이언트 윈도우 종료 시 서버에 접속 중단 메세지 출력
+5. 한 클라이언트 접속 중 다른 클라이언트가 접속 시 서버가 종료시킴
 
+- MultipleCathC2 / MultipleChatS2
+1. 서버의 info label 제거, TextArea에 클라이언트 연결 정보(IP:Port) 출력 
+2. 'quit' 입력 시 서버와의 연결 종료하며 창을 닫음
+3. 클라이언트 연결 설정/종료 시 접속 돼 있는 다른 클라이언트들에게 정보 전송
+4. 사용자 이름 입력 창 추가
+5. 대화말 송신자에게는 브로드캐스트 안되게 함
+    
 > Chapter 11
 
 1. UDP 소켓을 이용하여 daytime 서버와 클라이언트를 구현하세요.

@@ -7,23 +7,13 @@ import java.util.*;
 public class FileDownloadHTTPServer {
 
 	public static void main(String[] args) {
-		int b, port;
+		int port;
 		byte[] data = null;
 		String encoding = "ASCII";
 		String contenttype = "text/plain";
 		
 		try {
-			/* Argument data 전송	
-			if(args[0].endsWith(".html") || args[0].endsWith(".htm")) {
-				contenttype = "text/html";
-			}
-			FileInputStream in = new FileInputStream(args[0]);
-			ByteArrayOutputStream out = new ByteArrayOutputStream();
-			while ((b = in.read()) != -1)
-				out.write(b);
-			data = out.toByteArray();
-			 */	
-			port = 1245;
+			port = 1473;
 			ServerSocket server = new ServerSocket(port);
 			while (true) {
 				Socket connection = null;
@@ -72,7 +62,6 @@ class FileDownload extends Thread {
 			out = new BufferedOutputStream(connection.getOutputStream());
 			in = new BufferedInputStream(connection.getInputStream());
 			StringBuffer request = new StringBuffer(80);
-			StringBuffer message = new StringBuffer(100);
 			while (true) {
 				int c = in.read();
 				if (c == '\r' || c == '\n' || c == -1)
@@ -86,36 +75,18 @@ class FileDownload extends Thread {
 			System.out.println(request.toString());
 			System.out.println(requestFile);
 			file = new File(requestFile);
-			String text;
-			String error = "파일이 존재하지 않습니다.";
 			ByteArrayOutputStream baos = new ByteArrayOutputStream();
 			
-			//if (file.exists()) { // 존재하면 바로 전송
-				fin = new FileInputStream(requestFile);
+			
+			fin = new FileInputStream(requestFile);
 				
-				while ((b = fin.read()) != -1)
-					baos.write(b);
-				this.content = baos.toByteArray();
+			while ((b = fin.read()) != -1)
+				baos.write(b);
+			this.content = baos.toByteArray();
  
-				/*while ((text = br.readLine()) != null) {
-					message.append(text);
-				}
-				*/
-				String header = "HTTP 1.0 200 OK\r\n" + "Server: OneFile 1.0\r\n" + "Content-length:" + /*String.valueOf(message).getBytes()*/this.content.length + "\r\n" + "Content-type: " + this.MIMEType + "\r\n\r\n";
-				this.header = header.getBytes("ASCII");
-				
-				//out.write(String.valueOf(message).getBytes());
-				//out.write(this.content);
-				//out.flush();
-			//}
-			/*
-			else { // 파일 생성 후 전송 (.java 내용 텍스토로 작성 이후 .txt 파일로 변경)
-				//out.write(error.getBytes());
-				System.out.println(error);
-			}
-			*/
-			
-			
+			String header = "HTTP 1.0 200 OK\r\n" + "Server: OneFile 1.0\r\n" + "Content-length:" + /*String.valueOf(message).getBytes()*/this.content.length + "\r\n" + "Content-type: " + this.MIMEType + "\r\n\r\n";
+			this.header = header.getBytes("ASCII");
+					
 			if (request.toString().indexOf("HTTP/") != -1) {
 				out.write(this.header);
 			}
