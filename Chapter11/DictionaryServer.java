@@ -2,6 +2,7 @@ package Chapter11;
 
 import java.io.*;
 import java.net.*;
+import java.util.Arrays;
 
 class HTMLDecode {
 	public static String htmlEntityDecode(String s) {
@@ -73,14 +74,11 @@ public class DictionaryServer {
 	        	
 	        	while ((pageContents = buff.readLine())!=null) {
 	        		if (pageContents.contains("<span class=\"ExplainNum\">1 </span>")) {        			
-	        			//byte[] utf8 = pageContents.getBytes();
-	        
 	        			String str = new String(pageContents.getBytes("utf-8"), "utf-8");
 	        			int i = str.indexOf("<span class=\"ExplainNum\">1 </span>");
 	        			String find = str.substring(i+35);
 	        			int j = find.indexOf("<");
 	        			String load = find.substring(0, j);
-	        			//contents.append("RRRR : " + (load) + "\r\n");
 	            		contents = (HTMLDecoder.htmlEntityDecode(load) + "\r\n");
 	        		}
 	        		else {
@@ -96,24 +94,18 @@ public class DictionaryServer {
 	public static void main(String[] args) {
 		byte[] buffer = new byte[MAX_PACKET_SIZE];
 		String text;
+		boolean flag = false;
 		try {
 			DatagramPacket receivepacket = new DatagramPacket(buffer, buffer.length);
 			DatagramPacket sendpacket;
 			DatagramSocket socket = new DatagramSocket(5000);
-			FileOutputStream fos = new FileOutputStream(filename);
 			FileInputStream fin = new FileInputStream(filename);
-			OutputStreamWriter osw = new OutputStreamWriter(fos, "KSC5601");
-			//PrintWriter writer = new PrintWriter(System.out, true);
 			BufferedReader br = new BufferedReader(new InputStreamReader(fin));
-			BufferedWriter bw = new BufferedWriter(osw);
-			
-			//BufferedWriter bw = new BufferedWriter(osw);
 			FileWriter fw = new FileWriter(filename, true);
 			
 			while(true) {
+				text = "";
 				try {
-					
-					
 					socket.receive(receivepacket);					
 					String query = new String(receivepacket.getData(), 0, receivepacket.getLength());
 					receivepacket.setLength(MAX_PACKET_SIZE);
@@ -121,34 +113,38 @@ public class DictionaryServer {
 					byte[] data = new byte[100]; // 저장할 데이터
 					byte[] packetdata = new byte[100]; // 전송할 데이터
 					
-					String urlPath = new String(urlPath1 + query + urlPath2);
-					url = new URL(urlPath);
-		            HTMLsource(url);
+					String dict = "";
 		            
-		            data =  contents.getBytes();
-		            
-		            fw.write(query + " : " + contents + "\r\n");
-		            fw.flush();
-		            
-		            String dict;
-		            
-					while (((text = br.readLine()).contains(query))) { // query에 대한 값이 있으면 종료
-						int idx = 0;
-						idx = text.indexOf(" : ");
-						System.out.println(text.substring(idx));
-						dict = text.substring(idx);
-						packetdata = dict.getBytes();
-						sendpacket = new DatagramPacket(packetdata, packetdata.length, receivepacket.getAddress(), receivepacket.getPort());
-						socket.send(sendpacket);
+					while((text = br.readLine()) != null) {
+						if(text.contains(query)) {
+							int idx = 0;
+							idx = text.indexOf(" : ");
+							dict = text.substring(idx);
+							packetdata = dict.getBytes();
+							sendpacket = new DatagramPacket(packetdata, packetdata.length, receivepacket.getAddress(), receivepacket.getPort());
+							socket.send(sendpacket);
+							flag = true;
+							Arrays.fill(packetdata, (byte) 0);
+						}
 					}
-
-				}catch (IOException e)
-				{
+	
+					if(!flag) {
+						String urlPath = new String(urlPath1 + query + urlPath2);
+						url = new URL(urlPath);
+			            HTMLsource(url);
+			            data = contents.getBytes();
+			            sendpacket = new DatagramPacket(data, data.length, receivepacket.getAddress(), receivepacket.getPort());
+						socket.send(sendpacket);
+			            fw.write(query + " : " + contents);
+			            fw.flush();
+			            
+					}		
+					flag = false;
+				}catch (IOException e) {
 					System.out.println(e);
 				}
 			}
-		} catch (SocketException se)
-		{
+		} catch (SocketException se) {
 			System.out.println(se);
 		} catch (IOException e) {
 			System.out.println(e);

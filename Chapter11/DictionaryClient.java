@@ -18,6 +18,7 @@ public class DictionaryClient {
 	public static String hostname = "localhost";
 	public static void main(String[] args) {
 		byte[] buffer = new byte[MAX_PACKET_SIZE];
+		byte[] init = new byte[MAX_PACKET_SIZE];
 		try {
 			BufferedReader input;
 			DatagramPacket sendpacket;
@@ -40,6 +41,7 @@ public class DictionaryClient {
 				String urlPath = new String(urlPath1 + theLine + urlPath2);
 				url = new URL(urlPath);
 				*/
+				
 				byte[] data = theLine.getBytes();
 				sendpacket = new DatagramPacket(data, data.length, server, 5000);
 				socket.send(sendpacket);
@@ -48,9 +50,8 @@ public class DictionaryClient {
 				String dict = new String(receivepacket.getData());
 
 				System.out.println("¶æ : "  + dict);
-	
+				receivepacket.setData(init);
 				receivepacket.setLength(MAX_PACKET_SIZE);
-				
 			}
 		} catch (UnknownHostException e) 
 		{
